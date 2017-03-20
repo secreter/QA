@@ -5,4 +5,3 @@ with open(r"./txt/src/patty/format-patterns.txt",'r',encoding='utf-8') as f:
 
 
 print(dic['987'])
- 

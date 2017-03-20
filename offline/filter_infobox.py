@@ -23,14 +23,26 @@ dropArr=['id','img','label','url','wikiPageUsesTemplate',
 'otheruses4Property','oclc','isbn','imgCapt',
 'lowerCaption','misc','before','after','ratingProperty',
 'lastAlbum','nextAlbum','latd','latm','latns','longd',
-'longm']
+'longm','ign','gspot','jp','cero','esrb',
+'pegi','oflca','_1up','gamepro','gspy',
+'gt','np','mc','na','pal','usk','oflc',
+'egm','fam','pjo']
 with open(r"./txt/dist/dbpedia/infobox_en_filter.txt",'w',encoding='utf-8') as dist:
   while line:
     i=i+1
     line=file.readline()
-    lst=eval(line)
+    # 最后多了一个空行
+    if line=='\n':
+      continue
+    try:
+      lst=eval(line)
+    except SyntaxError:
+      print('SyntaxError in eval')
     # 过滤长度不为3的异常项
     if len(lst)!=3:
+      continue
+    # 过滤太长的
+    if len(lst[0])>30 or len(lst[2])>30:
       continue
     # print(lst)
     if lst[1] in dropArr:
