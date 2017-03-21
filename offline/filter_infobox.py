@@ -42,7 +42,10 @@ with open(r"./txt/dist/dbpedia/infobox_en_filter.txt",'w',encoding='utf-8') as d
     if len(lst)!=3:
       continue
     # 过滤太长的
-    if len(lst[0])>30 or len(lst[2])>30:
+    if len(lst[0])>25 or len(lst[2])>25:
+      continue
+    # 必须以resource开头，不然后面不好处理，但这样是不合理的
+    if not lst[0].startswith('resource/'):
       continue
     # print(lst)
     if lst[1] in dropArr:

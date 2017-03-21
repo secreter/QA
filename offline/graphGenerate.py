@@ -1,5 +1,6 @@
 # 生成RDF图
 #
+import time
 """
 vertex={
 val:'resource/!!!',
@@ -55,32 +56,39 @@ class Graph(object):
     e=Edge(triple[1],vObj)   #创建边
     vSub.addEdge(e)          #主语点添加一条有向边
 
-# 操作
-g=Graph()
-line=True
-i=0
-# file=open(r'D:\study\pythonitem\qa\offline\txt\infobox_mini.txt','r',encoding='utf-8')
-file=open(r'D:\study\pythonitem\qa\offline\txt\dist\dbpedia\infobox_en_filter.txt','r',encoding='utf-8')
-
-with open(r'D:\study\pythonitem\qa\offline\txt\infobox_mini_graph.txt','w',encoding='utf-8') as dist:
-  while line:
-    i=i+1
-    line = file.readline()
-    if len(line)<2:
-      continue
-
-    # line=line.replace('\n','')
-    # print(line)
-    try:
-      lst=eval(line)
-      g.addTriple(lst)
-    except SyntaxError:
-      print('SyntaxError in eval')
-    # print(lst)
-    if  i%10000==0:
-      print(i)
-
+def getGraph():
+  # 操作
+  g = Graph()
+  start = time.time()
+  fileLst = ['persondata_en.txt', 'infobox_en_filter.txt']
+  # fileLst = ['persondata_en.txt']
+  i = 0
+  # file=open(r'D:\study\pythonitem\qa\offline\txt\infobox_mini.txt','r',encoding='utf-8')
+  for fileName in fileLst:
+    file = open(r'D:\study\pythonitem\qa\offline\txt\dist\dbpedia\\' + fileName, 'r', encoding='utf-8')
+    line = True
+    print('start ' + fileName)
+    while line:
+      i = i + 1
+      line = file.readline()
+      if len(line) < 2:
+        continue
+      # line=line.replace('\n','')
+      # print(line)
+      try:
+        lst = eval(line)
+        g.addTriple(lst)
+      except SyntaxError:
+        print('SyntaxError in eval')
+      # print(lst)
+      if i % 100000 == 0:
+        print(i)
+  end = time.time()
+  print(end - start)
   print(len(g.verteices))
+  return g
+
+
 
 
 
