@@ -48,12 +48,17 @@ def signin():
         return '<h3>Hello, admin!</h3>'
     return '<h3>Bad username or password.</h3>'
 
-@app.route('/test', methods=['GET'])
-def test():
+@app.route('/rdf', methods=['GET'])
+def rdf():
     print(request.args)
     v=request.args.get('v')
+    v='resource/'+v.replace(' ','_')
     if v in g.verteices:
-      return 'name:'+g.verteices[v].val+'<br> edges:'+str(len(g.verteices[v].edges))
+      res={
+      "name":g.verteices[v].val,
+      "edges":[edge.val for edge in g.verteices[v].edges]
+      }
+      return json.dumps(res)
     else:
       return 'no this vertex!'
 

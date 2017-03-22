@@ -2,7 +2,7 @@
 # 最后提取三元组[rel,arg1,arg2].注意，一个问题里面可能包含多个三元组
 import getDependencies
 import re
-import json 
+import json
 f=open(r"./txt/dist/my/relT.txt",'r')
 relT=json.load(f)
 relArr=[] #存储获取的关系短语
@@ -11,7 +11,9 @@ relArr=[] #存储获取的关系短语
 # } #rel[w]，如论文中所讲用来记录指定的关系短语在哪些节点中出现过
 sents='Who was married to an actor that play in Philadelphia ?'
 # sents='I love a girl who\' name is buzhidao ?'
-# sents='Marry\'s gender is male ?'
+# sents="What is Jordan's career?"
+# sents="what is the tallest building in China"
+
 
 deLst=getDependencies.getDependencies(sents)
 print(deLst)
@@ -144,6 +146,11 @@ def probe(node,PL,dicW):
     if len(intersectionPL)==0:
       return
     else:
+      # 上一级dicw的有些key因为已经不在intersectionPL里了，所以我们要删除他们
+      oldKeys=list(dicW.keys())  #没删除之前的
+      dropKeys=set(oldKeys)-set(intersectionPL)  #要删除的
+      for dropKey in dropKeys:
+        dicW[dropKey]=[]
       for rel in intersectionPL:
         if rel not in dicW:
           dicW[rel]=[]
@@ -164,11 +171,12 @@ def getRel(root):
   for rel in PL:
     # rel 中所有单词都在子树上出现过
     # 元素一样但出现的顺序不一定一样，所以是集合的比较
-    if set(['was','married','to'])<=set(rel.split(' ')):
-      print(set(rel.split(' ')))
-      print(set(dicW[rel]))
+    # if set(['was','married','to'])<=set(rel.split(' ')):
+    #   print(set(rel.split(' ')))
+    #   print(set(dicW[rel]))
     #   过滤掉[[]]的str
-    if set(filter(lambda s:not s.startswith('[['),rel.split(' ')))==set(dicW[rel]):
+    # if set(filter(lambda s:not s.startswith('[['),rel.split(' ')))==set(dicW[rel]): #暂时注释掉
+    if set( rel.split(' ')) == set(dicW[rel]):
       global  relArr
       relArr.append(rel)
       # return (rel)
