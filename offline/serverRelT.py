@@ -15,7 +15,7 @@ def relT():
   print(request.args)
   rel=request.args.get('rel')
   if rel in dic:
-    return 
+    return json.dumps({rel:dic[rel]})
   return json.dumps({rel:[]})
 
 

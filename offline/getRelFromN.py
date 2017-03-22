@@ -2,9 +2,16 @@
 # 最后提取三元组[rel,arg1,arg2].注意，一个问题里面可能包含多个三元组
 import getDependencies
 import re
-# sents='Who was married to an actor that play in Philadelphia ?'
+import json 
+f=open(r"./txt/dist/my/relT.txt",'r')
+relT=json.load(f)
+relArr=[] #存储获取的关系短语
+# dicW={
+#   # 'was married to':['was','married']
+# } #rel[w]，如论文中所讲用来记录指定的关系短语在哪些节点中出现过
+sents='Who was married to an actor that play in Philadelphia ?'
 # sents='I love a girl who\' name is buzhidao ?'
-sents='Marry\'s gender is male ?'
+# sents='Marry\'s gender is male ?'
 
 deLst=getDependencies.getDependencies(sents)
 print(deLst)
@@ -107,15 +114,76 @@ def getDependencyTree(deLst):
       # 分叉节点
       deStr=stack[-1] 
       nodeStr=re.findall(r'\((.*),',deStr)[0]
-      print(nodeStr)
+      # print(nodeStr)
       curNode=findNode(root,nodeStr)
       print(curNode)
     stack=stack+speLst
-    print(stack)
-  return root
+    # print(stack)
+  return root['children'][0] # 不要ROOT这个虚拟节点了
 
+def addPL(root):
+  """PL是一个list,每个节点包含一个val，PL就是relT中所有包含val的关系短语
+  集合，加到每一个节点上作为属性"""
+  root['PL']=[]
+  for rel in relT:
+
+    relArr=rel.split(' ') # 是短语的话用空格切成单个单词的数组
+    if root['val'] in relArr:
+      # if rel == "was married to":
+      #   print(rel + "!!!in " + root['val'])
+      root['PL'].append(rel)
+      # print(child['val']+' in '+rel) 
+  for child in root['children']:
+    addPL(child)
+
+  return root
+# 探测
+def probe(node,PL,dicW):
+  for child in node['children']:
+    intersectionPL=list(set(PL)&(set(child['PL'])))
+    if len(intersectionPL)==0:
+      return
+    else:
+      for rel in intersectionPL:
+        if rel not in dicW:
+          dicW[rel]=[]
+        dicW[rel].append(child['val']) #表示在这个节点出现过
+      probe(child,intersectionPL,dicW)
+
+# 获取关系嵌入
+def getRel(root):
+  PL=root['PL']
+  dicW={}
+  for rel in PL:
+    if rel not in dicW:
+      dicW[rel]=[]
+    dicW[rel].append(root['val'])
+  # if "was married to" in dicW:
+  #   print("yes")
+  probe(root,PL,dicW)
+  for rel in PL:
+    # rel 中所有单词都在子树上出现过
+    # 元素一样但出现的顺序不一定一样，所以是集合的比较
+    if set(['was','married','to'])<=set(rel.split(' ')):
+      print(set(rel.split(' ')))
+      print(set(dicW[rel]))
+    #   过滤掉[[]]的str
+    if set(filter(lambda s:not s.startswith('[['),rel.split(' ')))==set(dicW[rel]):
+      global  relArr
+      relArr.append(rel)
+      # return (rel)
+  for child in root['children']:
+    getRel(child)
+    #找到了就不再往后找了
+  #   if res != None:
+  #     return res
+  # return None
 
 root=getDependencyTree(deLst)
 # print(root)
 print('-------------------')
 traversal(root)
+root=addPL(root)
+
+getRel(root)
+print(relArr)
