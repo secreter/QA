@@ -16,8 +16,7 @@ sents='Who was married to an actor that play in Philadelphia ?'
 sents="where does Aaron Kemps come from"
 
 
-deLst=getDependencies.getDependencies(sents)
-print(deLst)
+
 
 def getSpecifyDependencies(nodeStr,deLst):
   """"获取指定的以nodeStr为(start,end)start的所有依赖，返回一个list，
@@ -297,10 +296,12 @@ def findQuestionWord(node):
 
 
 
-
-def getTriple():
+# 这里用全局
+def getTriple(sents):
   """获取问题里的三元组，不一定只有一个，比如复合语句里就会有多个
   但还是那样，这我只分析简单到只有一个的情况，没时间写论文了"""
+  deLst = getDependencies.getDependencies(sents)
+  print(deLst)
   #获取依赖树
   root=getDependencyTree(deLst)
   # print(root)
@@ -344,8 +345,8 @@ def getTriple():
     if objStr==None:
       print('obj is none')
       return None
+  return (subStr,tu[0],objStr)
 
-  print((subStr,tu[0],objStr))
 
-
-getTriple()
+# t=getTriple(sents)
+# print(t)
