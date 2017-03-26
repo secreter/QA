@@ -11,8 +11,12 @@ fPaths=open('./txt/dist/my/paths_tf-idf.txt','r',encoding='utf-8')
 paths=json.load(fPaths)
 
 # sents="where does Aaron Kemps come from?"
-sents="where is Hurricane Joe?"
-sub,rel,obj=getTriple(sents)
+sents="what is Hurricane Joe?"
+tu=getTriple(sents)
+if tu ==None:
+  print("tu is none!")
+  exit()
+sub,rel,obj=tu
 print(rel)
 print(relT[rel])
 # 多个数组合并

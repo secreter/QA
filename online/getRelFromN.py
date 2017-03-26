@@ -3,7 +3,7 @@
 import getDependencies
 import re
 import json
-f=open(r"./txt/dist/my/relT.txt",'r')
+f=open(r"../offline/txt/dist/my/relT.txt",'r')
 relT=json.load(f)
 relArr=[] #存储获取的关系短语
 # dicW={
@@ -113,8 +113,6 @@ def getDependencyTree(deLst):
     #获取父节点的pNodeStr
     pNodeStr = re.findall(r'\((.+),', deStr)[0]
     edgeStr = re.findall(r'(.*)\(', deStr)[0]
-    print(pNodeStr)
-    print(edgeStr)
     # 匹配出结束节点的nodestr,,,'married-3'
     nodeStr=re.findall(r', (.+)\)',deStr)[0]
     # y有时候会出现环，这里我不允许child节点的孩子指向它父亲，直接忽略
@@ -153,7 +151,7 @@ def getDependencyTree(deLst):
       nodeStr=re.findall(r'\((.*),',deStr)[0]
       # print(nodeStr)
       curNode=findNode(root,nodeStr)
-      print(curNode)
+      # print(curNode)
     stack=stack+speLst
     # print(stack)
   return root['children'][0] # 不要ROOT这个虚拟节点了
@@ -161,7 +159,7 @@ def getDependencyTree(deLst):
 def addPL(root):
   """PL是一个list,每个节点包含一个val，PL就是relT中所有包含val的关系短语
   集合，加到每一个节点上作为属性"""
-  root['PL']=[]
+  root['PL']=['is','are']  #发现be动词是找不到的，这里默认加上
   for rel in relT:
 
     relArr=rel.split(' ') # 是短语的话用空格切成单个单词的数组
@@ -184,8 +182,8 @@ def probe(node,PL,dicW):
       # 上一级dicw的有些key因为已经不在intersectionPL里了，所以我们要删除他们
       oldKeys=list(dicW.keys())  #没删除之前的
       dropKeys=set(oldKeys)-set(intersectionPL)  #要删除的
-      if node['val']=='play':
-        print(intersectionPL)
+      # if node['val']=='play':
+      #   print(intersectionPL)
       for dropKey in dropKeys:
         dicW[dropKey]=[]  #这里置空，删除后面检查的时候还会遍历到
       for rel in intersectionPL:
@@ -286,6 +284,9 @@ def findQuestionWord(node):
   whArr=['when','where','why','who','which','what','how']
   # 维护一个队列来实现宽度优先遍历
   queue=[node]
+  # 后补的，处理根节点是wh
+  if node['val'].lower() in whArr:
+    return node['val']
   while queue:
     cur=queue.pop()
     for child in cur['children']:
@@ -293,6 +294,8 @@ def findQuestionWord(node):
         return child['val']
     queue=cur['children']+queue #加再前面，宽度优先遍历
   return None
+
+
 
 
 
@@ -305,6 +308,7 @@ def getTriple(sents):
   #获取依赖树
   root=getDependencyTree(deLst)
   # print(root)
+  print(root['children'])
   print('-------------------')
   #遍历看看
   traversal(root)
@@ -316,11 +320,13 @@ def getTriple(sents):
   if len(relArr)>0:
     #暂时就默认第一个就是正确结果，但其实不一定，有很多情况，所以只有简单的句子能成功，最好恰好提取的只有一个关系短语
     tu = relArr[0] #（rel,root,lstY）
-    print(tu)
+    # print(tu)
     print(tu[0])
-    print(tu[1])
+    print(tu[1]['val'])
     print(tu[2])
   else:
+    # 我发现 is，are 也是找不到的，这里如果没找到关系短语，把is，are算上
+
     print('not find rel phrase!')
     return None
   # 把包含关系词的子树标记出来
@@ -330,23 +336,37 @@ def getTriple(sents):
   subStr=findSub(relRoot)
   # 寻找宾语
   objStr = findObj(relRoot)
-  # 两个都为空就没得玩了，直接返回
-  if subStr==None and objStr==None:
-    print('sub and obj are none')
-    return None
+
   if subStr==None:
-    subStr=findQuestionWord(relRoot)
-    # 找不到疑问词就返回吧
-    if subStr==None:
-      print('sub is none')
-      return None
+    # 规则3：如果t根节点的父节点和它的子节点有类主语关系，添加子节点到arg1中。
+    relRoot['parent'][0]['belong2Y']=True #因为前面代码的原因，不是关系子树就直接返回了，这里算它是吧
+    subStr = findSub(relRoot['parent'][0])
+    relRoot['parent'][0]['belong2Y'] = False
+    if subStr == None:
+      subStr=findQuestionWord(relRoot)
+      # 找不到疑问词就返回吧
+      if subStr==None:
+        print('sub is none')
+      # return None
   if objStr==None:
     objStr=findQuestionWord(relRoot)
     if objStr==None:
-      print('obj is none')
-      return None
+      # 从整棵树的根找一次
+      objStr = findQuestionWord(root)
+      if objStr == None:
+        print('obj is none')
+      # return None
+  # 两个都为空就没得玩了，直接返回
+  if subStr == None or objStr == None:
+    print('sub or obj are none')
+    return None
+  print((subStr,tu[0],objStr))
   return (subStr,tu[0],objStr)
 
+sents="What is Jordan's career?"
+# sents="What is Jordan?"
+# sents="Where is Jordan?"
+# sents="What is Jordan?"
 
 # t=getTriple(sents)
 # print(t)
