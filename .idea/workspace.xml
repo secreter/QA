@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d06dc1d-1506-47cc-83ed-b949f9d31669" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/offline/getTriple5 - 副本.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/offline/answerTheQuestion.py" afterPath="$PROJECT_DIR$/offline/answerTheQuestion.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/offline/getDependencies.py" afterPath="$PROJECT_DIR$/online/getDependencies.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/offline/getRelFromN.py" afterPath="$PROJECT_DIR$/online/getRelFromN.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/offline/server.py" afterPath="$PROJECT_DIR$/online/server.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/offline/serverRelT.py" afterPath="$PROJECT_DIR$/online/serverRelT.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/offline/serverSampleAnswer.py" afterPath="$PROJECT_DIR$/online/serverSampleAnswer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/offline/graphGenerate.py" afterPath="$PROJECT_DIR$/offline/graphGenerate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/online/getEntityLinking.py" afterPath="$PROJECT_DIR$/online/getEntityLinking.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/online/getRelFromN.py" afterPath="$PROJECT_DIR$/online/getRelFromN.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/online/getRelPath.py" afterPath="$PROJECT_DIR$/online/getRelPath.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/online/matchGraph.py" afterPath="$PROJECT_DIR$/online/matchGraph.py" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,9 +23,9 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/qa$getEntityLinking.coverage" NAME="getEntityLinking Coverage Results" MODIFIED="1490513711267" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/online" />
     <SUITE FILE_PATH="coverage/qa$getRelFromN.coverage" NAME="getRelFromN Coverage Results" MODIFIED="1490270054178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/offline" />
-    <SUITE FILE_PATH="coverage/qa$matchGraph.coverage" NAME="matchGraph Coverage Results" MODIFIED="1490531129894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/online" />
+    <SUITE FILE_PATH="coverage/qa$matchGraph.coverage" NAME="matchGraph Coverage Results" MODIFIED="1490603128146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/online" />
     <SUITE FILE_PATH="coverage/qa$graphGenerate.coverage" NAME="graphGenerate Coverage Results" MODIFIED="1490064851574" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/offline" />
-    <SUITE FILE_PATH="coverage/qa$getRelFromN__1_.coverage" NAME="getRelFromN (1) Coverage Results" MODIFIED="1490525028190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/online" />
+    <SUITE FILE_PATH="coverage/qa$getRelFromN__1_.coverage" NAME="getRelFromN (1) Coverage Results" MODIFIED="1490596062794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/online" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -41,15 +39,12 @@
       <file leaf-file-name="getRelFromN.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/online/getRelFromN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4092">
-              <caret line="362" column="29" selection-start-line="362" selection-start-column="29" selection-end-line="362" selection-end-column="29" />
+            <state relative-caret-position="159">
+              <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
               <folding>
                 <element signature="e#100#122#0" expanded="true" />
-                <element signature="e#4336#4762#0" expanded="false" />
-                <element signature="e#4795#5470#0" expanded="false" />
-                <element signature="e#5499#6316#0" expanded="false" />
-                <element signature="e#6349#6520#0" expanded="false" />
-                <element signature="e#6560#6852#0" expanded="false" />
+                <element signature="e#6565#6736#0" expanded="false" />
+                <element signature="e#6776#7068#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -58,8 +53,8 @@
       <file leaf-file-name="matchGraph.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/online/matchGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+            <state relative-caret-position="132">
+              <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="42" />
               <folding>
                 <element signature="e#23#34#0" expanded="true" />
               </folding>
@@ -71,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/online/getRelPath.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="114">
-              <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -81,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/online/getEntityLinking.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
               <folding>
                 <element signature="e#33#48#0" expanded="true" />
               </folding>
@@ -104,8 +99,8 @@
       <file leaf-file-name="graphGenerate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/offline/graphGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+            <state relative-caret-position="330">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -675,7 +670,7 @@
     <option name="totallyTimeSpent" value="724000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1102" extended-state="7" />
+    <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19330454" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -684,11 +679,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38137472" sideWeight="0.4978308" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38137472" sideWeight="0.4978308" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43146068" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.43126386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -714,7 +709,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/online/matchGraph.py</url>
+          <line>105</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="22" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -725,11 +727,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#100#122#0" expanded="true" />
-            <element signature="e#4336#4762#0" expanded="false" />
-            <element signature="e#4795#5470#0" expanded="false" />
-            <element signature="e#5499#6316#0" expanded="false" />
-            <element signature="e#6349#6520#0" expanded="false" />
-            <element signature="e#6560#6852#0" expanded="false" />
+            <element signature="e#6565#6736#0" expanded="false" />
+            <element signature="e#6776#7068#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -810,11 +809,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#100#122#0" expanded="true" />
-            <element signature="e#4336#4762#0" expanded="false" />
-            <element signature="e#4795#5470#0" expanded="false" />
-            <element signature="e#5499#6316#0" expanded="false" />
-            <element signature="e#6349#6520#0" expanded="false" />
-            <element signature="e#6560#6852#0" expanded="false" />
+            <element signature="e#6565#6736#0" expanded="false" />
+            <element signature="e#6776#7068#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -833,11 +829,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#100#122#0" expanded="true" />
-            <element signature="e#4336#4762#0" expanded="false" />
-            <element signature="e#4795#5470#0" expanded="false" />
-            <element signature="e#5499#6316#0" expanded="false" />
-            <element signature="e#6349#6520#0" expanded="false" />
-            <element signature="e#6560#6852#0" expanded="false" />
+            <element signature="e#6565#6736#0" expanded="false" />
+            <element signature="e#6776#7068#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -911,14 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/offline/graphGenerate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/online/getDependencies.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -946,7 +931,7 @@
     <entry file="file://$PROJECT_DIR$/online/getEntityLinking.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
           <folding>
             <element signature="e#33#48#0" expanded="true" />
           </folding>
@@ -974,30 +959,35 @@
     <entry file="file://$PROJECT_DIR$/online/getRelPath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/online/getRelFromN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4092">
-          <caret line="362" column="29" selection-start-line="362" selection-start-column="29" selection-end-line="362" selection-end-column="29" />
+        <state relative-caret-position="159">
+          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
           <folding>
             <element signature="e#100#122#0" expanded="true" />
-            <element signature="e#4336#4762#0" expanded="false" />
-            <element signature="e#4795#5470#0" expanded="false" />
-            <element signature="e#5499#6316#0" expanded="false" />
-            <element signature="e#6349#6520#0" expanded="false" />
-            <element signature="e#6560#6852#0" expanded="false" />
+            <element signature="e#6565#6736#0" expanded="false" />
+            <element signature="e#6776#7068#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/offline/graphGenerate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/online/matchGraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+        <state relative-caret-position="132">
+          <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="42" />
           <folding>
             <element signature="e#23#34#0" expanded="true" />
           </folding>

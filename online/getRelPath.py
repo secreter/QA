@@ -4,6 +4,7 @@ import json
 import requests
 
 
+
 def getRelPath(rel):
   # 字典里没有is are，先加上，谓词路径设为空，出现的话直接搜索主语，直接返回be
   if rel in ['is','are']:

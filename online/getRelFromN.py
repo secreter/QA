@@ -11,9 +11,9 @@ relArr=[] #存储获取的关系短语
 # } #rel[w]，如论文中所讲用来记录指定的关系短语在哪些节点中出现过
 sents='Who was married to an actor that play in Philadelphia ?'
 # sents='I love a girl who\' name is buzhidao ?'
-# sents="What is Jordan's career?"
+sents="What is Jordan's career?"
 # sents="what is the tallest building in China"
-sents="where does Aaron Kemps come from"
+# sents="where does Aaron Kemps come from"
 
 
 
@@ -131,6 +131,11 @@ def getDependencyTree(deLst):
       insertNodeStr=prefix[5:]+'-None'
       insertNode=initNode(insertNodeStr)
       curNode['children'].append(insertNode)
+      # 加上的边暂时用nmod和obj来表示
+      i_c2pEdge = initEdge('nmod', insertNode)
+      insertNode['c2pEdges'].append(i_c2pEdge)
+      i_p2cEdge = initEdge('obj', nodeStr)
+      insertNode['p2cEdges'].append(i_p2cEdge)
       insertNode['parent'].append(curNode)
       curNode=insertNode
 
@@ -159,7 +164,7 @@ def getDependencyTree(deLst):
 def addPL(root):
   """PL是一个list,每个节点包含一个val，PL就是relT中所有包含val的关系短语
   集合，加到每一个节点上作为属性"""
-  root['PL']=['is','are']  #发现be动词是找不到的，这里默认加上
+  root['PL']=[]  #发现be动词是找不到的，这里默认加上,（还是加到字典末尾吧
   for rel in relT:
 
     relArr=rel.split(' ') # 是短语的话用空格切成单个单词的数组
@@ -184,8 +189,8 @@ def probe(node,PL,dicW):
       dropKeys=set(oldKeys)-set(intersectionPL)  #要删除的
       # if node['val']=='play':
       #   print(intersectionPL)
-      for dropKey in dropKeys:
-        dicW[dropKey]=[]  #这里置空，删除后面检查的时候还会遍历到
+      # for dropKey in dropKeys:
+        # dicW[dropKey]=[]  #这里置空，删除后面检查的时候还会遍历到
       for rel in intersectionPL:
         if rel not in dicW:
           dicW[rel]=[]
@@ -316,7 +321,9 @@ def getTriple(sents):
   root=addPL(root)
   #抽取关系短语，是一个数组，记录在全局变量relArr里，（rel,node）
   getRel(root)  #提取关系短语
-  # print(relArr)
+  global relArr
+  relArr=sorted(relArr,key=lambda a:len(a[0]),reverse=True)  #排序，选择关系短语最长的一个
+  print([item[0] for item in relArr])
   if len(relArr)>0:
     #暂时就默认第一个就是正确结果，但其实不一定，有很多情况，所以只有简单的句子能成功，最好恰好提取的只有一个关系短语
     tu = relArr[0] #（rel,root,lstY）
@@ -363,10 +370,12 @@ def getTriple(sents):
   print((subStr,tu[0],objStr))
   return (subStr,tu[0],objStr)
 
-sents="What is Jordan's career?"
-# sents="What is Jordan?"
-# sents="Where is Jordan?"
-# sents="What is Jordan?"
-
+# sents="What is Jordan's career?"
+# # sents="What is Jordan?"
+# # sents="Where is Jordan?"
+# # sents="What is Jordan?"
+# sents="where does Aaron Kemps come from"
+# # sents='Who was married to an actor that play in Philadelphia ?'
+# sents="who was married to Jordan?"
 # t=getTriple(sents)
 # print(t)

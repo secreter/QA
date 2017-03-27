@@ -3,6 +3,11 @@ import requests
 import re
 def getEntity(s):
   """返回最多5个实体链接，好像还可以通过参数来配置搜索的类别和返回的个数"""
+  whArr=['when','where','why','who','which','what','how']
+  # 疑问词直接返回（统一小写）
+  if s.lower() in whArr:
+    return [s.lower()]
+
   url = 'http://lookup.dbpedia.org/api/search.asmx/KeywordSearch'
   param = {
     'QueryString': s

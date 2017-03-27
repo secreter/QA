@@ -23,6 +23,12 @@ class Vertex:
 
   def getEdges(self):
     return self.edges
+    
+  def getEdge(self,s):
+    for edge in self.edges:
+      if edge.val==s:
+        return edge
+    return None
 
 #   定义边的数据结构
 class Edge(object):
