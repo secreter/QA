@@ -9,11 +9,11 @@ relArr=[] #存储获取的关系短语
 # dicW={
 #   # 'was married to':['was','married']
 # } #rel[w]，如论文中所讲用来记录指定的关系短语在哪些节点中出现过
-sents='Who was married to an actor that play in Philadelphia ?'
-# sents='I love a girl who\' name is buzhidao ?'
-sents="What is Jordan's career?"
-# sents="what is the tallest building in China"
-# sents="where does Aaron Kemps come from"
+# sents='Who was married to an actor that play in Philadelphia ?'
+# # sents='I love a girl who\' name is buzhidao ?'
+# sents="What is Jordan's career?"
+# # sents="what is the tallest building in China"
+# # sents="where does Aaron Kemps come from"
 
 
 
@@ -306,8 +306,11 @@ def findQuestionWord(node):
 
 # 这里用全局
 def getTriple(sents):
+
   """获取问题里的三元组，不一定只有一个，比如复合语句里就会有多个
   但还是那样，这我只分析简单到只有一个的情况，没时间写论文了"""
+  global relArr 
+  relArr=[] #先置空，不然每次调用的是追加
   deLst = getDependencies.getDependencies(sents)
   print(deLst)
   #获取依赖树
@@ -321,7 +324,7 @@ def getTriple(sents):
   root=addPL(root)
   #抽取关系短语，是一个数组，记录在全局变量relArr里，（rel,node）
   getRel(root)  #提取关系短语
-  global relArr
+  
   relArr=sorted(relArr,key=lambda a:len(a[0]),reverse=True)  #排序，选择关系短语最长的一个
   print([item[0] for item in relArr])
   if len(relArr)>0:

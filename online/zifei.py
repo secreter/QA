@@ -30,13 +30,23 @@ def signin():
     question=request.form['question']
     # 靠，py的可选参数一定要用等号
     answerLst=askZiFei(question,g=g)
+    if not answerLst:
+      return '''<form action="/zifei" method="post">
+              <p><input name="question" value="'''+question +'''"></p>
+              <p><button type="submit">ask zifei</button></p>
+              </form>
+              <br>
+              <h3>数据集中没有答案，子非也没办法哦~换个问题问问吧</h3>
+              '''
+
+
     return '''<form action="/zifei" method="post">
               <p><input name="question" value="'''+question +'''"></p>
               <p><button type="submit">ask zifei</button></p>
               </form>
               <br>
-              <h3>'''+str(answerLst)+'''</h3>
-              '''
+              '''+str(['<h3><p>'+item[0].split('/')[1]+'      '+str(item[1])+'</p><p>https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst])
+              
 
 @app.route('/rdf', methods=['GET'])
 def rdf():

@@ -56,9 +56,9 @@ def getAllEnds(v,lst):
 
 
 
-sents="where does Michael Jordan come from"
+# sents="where does Michael Jordan come from"
 # sents="where does Aaron Kemps come from"
-sents="What is Jordan's career?"
+# sents="What is Jordan's career?"
 # sents="What is Jordan?"
 # sents="Who is Jordan?"
 # sents="what is US?"
@@ -74,19 +74,13 @@ def askZiFei(sents,g=None):
   t=getTriple(sents)
   if not t :
     print('getTriple failed!')
-    exit()
+    return None
   arg1,rel,arg2=t
   # 获取实体链接
   arg1Lst=getEntity(arg1)
   arg2Lst=getEntity(arg2)
   # 获取谓词路径
   relLst=getRelPath(rel)
-  if relLst[0][0]=='be':
-    req=requests.get('http://localhost:5001/rdf?v='+arg1Lst[0])
-    print(req.text)
-    data=json.loads(req.text)
-    print(data['name'])
-    exit()
 
   print('arg1Lst: '+str(arg1Lst))
   print('arg2Lst: '+str(arg2Lst))
@@ -96,17 +90,31 @@ def askZiFei(sents,g=None):
 
   print(resourceLst)
 
-
-
-
-  # 遍历所有的资源，从所有点开始
-  ends=[]
-  for resStr in resourceLst:
-    # 获取所有的path可达终点和可信概率
-    if not resStr in g.verteices:
-      continue
-    v=g.verteices[resStr]
-    ends+=getAllEnds(v,relLst)
+  # be动词的情况
+  if relLst[0][0]=='be':
+    # req=requests.get('http://localhost:5001/rdf?v='+arg1Lst[0])
+    # print(req.text)
+    # data=json.loads(req.text)
+    # print(data['name'])
+    # 遍历所有的资源，从所有点开始
+    ends=[]
+    for resStr in resourceLst:
+      # 获取所有的path可达终点和可信概率
+      if not resStr in g.verteices:
+        continue
+      v=g.verteices[resStr]
+      ends.append([v,0.1])
+    
+  else:
+  
+    # 遍历所有的资源，从所有点开始
+    ends=[]
+    for resStr in resourceLst:
+      # 获取所有的path可达终点和可信概率
+      if not resStr in g.verteices:
+        continue
+      v=g.verteices[resStr]
+      ends+=getAllEnds(v,relLst)
 
   print(ends)
   sampleEnds=[(end[0].val,end[1]) for end in ends]
