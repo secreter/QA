@@ -31,22 +31,39 @@ def signin():
     # 靠，py的可选参数一定要用等号
     answerLst=askZiFei(question,g=g)
     if not answerLst:
-      return '''<form action="/zifei" method="post">
-              <p><input name="question" value="'''+question +'''"></p>
-              <p><button type="submit">ask zifei</button></p>
+      return '''
+              <link rel="stylesheet" type="text/css" href="./css/index.css">
+              <form center action="/zifei" method="post">
+              <p><input style="width:400px;height:80px" name="question" value="'''+question +'''"></p>
+              <p><button type="submit">ask</button></p>
               </form>
               <br>
               <h3>数据集中没有答案，子非也没办法哦~换个问题问问吧</h3>
               '''
 
 
-    return '''<form action="/zifei" method="post">
-              <p><input name="question" value="'''+question +'''"></p>
-              <p><button type="submit">ask zifei</button></p>
+    return '''<link rel="stylesheet" type="text/css" href="./css/index.css">
+              <form center action="/zifei" method="post">
+              <p><input style="width:400px;height:80px" name="question" value="'''+question +'''"></p>
+              <p><button type="submit">ask</button></p>
               </form>
               <br>
-              '''+str(['<h3><p>'+item[0].split('/')[1]+'      '+str(item[1])+'</p><p>https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst])
-              
+              '''+str(['<h3><p>'+item[0].split('/')[1]+'      '+str(item[1])+'</p><p>https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst][1:-1])
+ 
+
+@app.route('/edge', methods=['GET'])
+def edge():
+    print(request.args)
+    v=request.args.get('v')
+    v='resource/'+v.replace(' ','_')
+    if v in g.verteices:
+      res={
+      "name":g.verteices[v].val,
+      "edges":[edge.val for edge in g.verteices[v].edges]
+      }
+      return json.dumps(res)
+    else:
+      return 'no this vertex!'             
 
 @app.route('/rdf', methods=['GET'])
 def rdf():

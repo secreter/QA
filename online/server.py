@@ -23,8 +23,10 @@
 
 from flask import Flask
 from flask import request
-from graphGenerate import getGraph
 import json 
+import sys 
+sys.path.append("../offline")
+from graphGenerate import getGraph
 
 
 app = Flask(__name__)
