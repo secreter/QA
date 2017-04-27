@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask import request
+import time
 import json
 import sys
 sys.path.append("../offline")
@@ -24,6 +25,7 @@ def signin_form():
 
 @app.route('/zifei', methods=['POST'])
 def signin():
+    start = time.clock()
     # 需要从request对象读取表单内容：
     if not request.form['question']:
       return '<h3>没有提问哦！</h3>'
@@ -32,27 +34,29 @@ def signin():
     answerLst=askZiFei(question,g=g)
     if not answerLst:
       return '''
-              <link rel="stylesheet" type="text/css" href="./css/index.css">
+              
               <form center action="/zifei" method="post">
-              <p><input style="width:400px;height:80px" name="question" value="'''+question +'''"></p>
+              <p><input style="width:400px;height:60px" name="question" value="'''+question +'''"></p>
               <p><button type="submit">ask</button></p>
               </form>
               <br>
               <h3>数据集中没有答案，子非也没办法哦~换个问题问问吧</h3>
               '''
-
-
-    return '''<link rel="stylesheet" type="text/css" href="./css/index.css">
+    elapsed = (time.clock() - start)
+    return '''
               <form center action="/zifei" method="post">
-              <p><input style="width:400px;height:80px" name="question" value="'''+question +'''"></p>
+              <p><input style="width:400px;height:60px" name="question" value="'''+question +'''"></p>
               <p><button type="submit">ask</button></p>
               </form>
               <br>
-              '''+str(['<h3><p>'+item[0].split('/')[1]+'      '+str(item[1])+'</p><p>https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst][1:-1])
+              花费时间：'''+str(elapsed)+'''s
+              <br>
+              '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst])[1:-1].replace("'",'')
  
 
 @app.route('/edge', methods=['GET'])
 def edge():
+
     print(request.args)
     v=request.args.get('v')
     v='resource/'+v.replace(' ','_')
