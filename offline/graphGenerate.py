@@ -1,6 +1,8 @@
 # 生成RDF图
 #
-import time
+import time,sys,os
+# 文件所在目录
+cur_dir=os.path.split(os.path.realpath(__file__))[0]
 """
 vertex={
 val:'resource/!!!',
@@ -71,7 +73,7 @@ def getGraph():
   i = 0
   # file=open(r'D:\study\pythonitem\qa\offline\txt\infobox_mini.txt','r',encoding='utf-8')
   for fileName in fileLst:
-    file = open(r'D:\study\pythonitem\qa\offline\txt\dist\dbpedia\\' + fileName, 'r', encoding='utf-8')
+    file = open(cur_dir+r'/txt/dist/dbpedia/' + fileName, 'r', encoding='utf-8')
     line = True
     print('start ' + fileName)
     while line:

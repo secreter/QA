@@ -52,7 +52,39 @@ def signin():
               花费时间：'''+str(elapsed)+'''s
               <br>
               '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst])[1:-1].replace("'",'')
- 
+
+@app.route('/get_zifei', methods=['GET'])
+def get_zifei():
+    start = time.clock()
+    question=request.args.get('question')
+    # 需要从request对象读取表单内容：
+    if not question:
+      return json.dumps({
+        'error':1,
+        'msg':'question is null'
+        })
+
+
+    # 靠，py的可选参数一定要用等号
+    answerLst=askZiFei(question,g=g)
+    elapsed = (time.clock() - start)
+    if not answerLst:
+      return json.dumps({
+        'error':2,
+        'time':str(elapsed)+'s',
+        'msg':'这个问题数据集没有答案，换个问题试试吧~'
+        })
+    item=answerLst[0]
+    return json.dumps({
+        'error':0,
+        'time':str(elapsed)+'s',
+        'msg':'success',
+        'answer':item[0].split('/')[1],
+        'score':item[1],
+        'wiki':'https://en.wikipedia.org/wiki/'+item[0].split('/')[1]
+        })
+
+
 
 @app.route('/edge', methods=['GET'])
 def edge():
