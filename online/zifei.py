@@ -51,7 +51,7 @@ def signin():
               <br>
               花费时间：'''+str(elapsed)+'''s
               <br>
-              '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst])[1:-1].replace("'",'')
+              '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst if len(item[0].split('/'))>1])[1:-1].replace("'",'')
 
 @app.route('/get_zifei', methods=['GET'])
 def get_zifei():

@@ -273,7 +273,9 @@ def findObj(root):
   stack=[root]
   while stack:
     cur=stack.pop()
+    print('findObj --stack pop v:'+cur['val'])
     for edge in cur['p2cEdges']:
+      print('findObj --stack pop v edge p2cEdges:'+cur['val'])
       #边上的关系属于特征关系
       if edge['val'] in objFlagArr:
         objNode=findNode(cur,edge['edge2Str'])

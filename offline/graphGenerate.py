@@ -2,7 +2,7 @@
 #
 import time,sys,os
 # 文件所在目录
-cur_dir=os.path.split(os.path.realpath(__file__))[0]
+cur_dir=os.path.split(os.path.realpath(__file__))[0]  
 """
 vertex={
 val:'resource/!!!',

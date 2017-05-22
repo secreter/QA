@@ -16,7 +16,8 @@ def getResourceLst(arg1Lst,arg2Lst):
   # 疑问词直接返回（统一小写）
   if arg1Lst[0].lower() in whArr:
     lst=arg2Lst
-  lst=arg1Lst
+  else:
+    lst=arg1Lst
   return list(map(lambda s:'resource/'+s.replace(' ','_'),lst))
 
 def edgeToPoint(v,edgeStr):
@@ -31,6 +32,7 @@ def pathToEnd(v,paths):
   end=None
   curV=v
   for path in paths:
+    print(curV.val,path)
     curV=edgeToPoint(curV,path)
     if curV==None :
       break
@@ -40,6 +42,8 @@ def pathToEnd(v,paths):
 def getAllEnds(v,lst):
   """从一个点开始，获取列表里的所有paths所能到达的所有终点和可信概率"""
   ends=[]
+  print(v)
+  print(lst)
   for item in lst:
     s=item[0]
     end=None  #终点
@@ -90,6 +94,9 @@ def askZiFei(sents,g=None):
 
   print(resourceLst)
 
+  if len(relLst)==0 :
+    print('relLst is null!')
+    return None
   # be动词的情况
   if relLst[0][0]=='be':
     # req=requests.get('http://localhost:5001/rdf?v='+arg1Lst[0])
