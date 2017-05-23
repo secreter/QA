@@ -25,9 +25,9 @@ def getRelPath(rel):
     if pid in paths:
       pathArr+=paths[pid]
 
-  if len(pathArr)>3:
+  if len(pathArr)>5:
     # 排序并取top-3
-    pathArr=sorted(pathArr,key=(lambda x:x[1]), reverse=True)[:3]
+    pathArr=sorted(pathArr,key=(lambda x:x[1]), reverse=True)[:5]
   else:
     pathArr=sorted(pathArr,key=(lambda x:x[1]), reverse=True)
 

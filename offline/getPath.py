@@ -1,4 +1,4 @@
-# 生成谓词路径 
+ # 生成谓词路径 
 # id '\t\t\t' PS '\t\t\t' m(实体对个数)
 from graphGenerate import getGraph
 def strToInstance(s):

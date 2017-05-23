@@ -101,6 +101,8 @@ def getDependencyTree(deLst):
   }
   # 获取root节点的指定lst,就是包含ROOT-0的项
   speLst=getSpecifyDependencies('ROOT-0',deLst)
+  print('speLst---')
+  print(speLst)
   stack=stack+speLst
   crossStack=[root]
 
@@ -121,21 +123,23 @@ def getDependencyTree(deLst):
     else:
       print(nodeStr+'=====had appeared')
       continue
-    newNode=initNode(nodeStr)
-    p2cEdge=initEdge(edgeStr,nodeStr)
+    newNode=initNode(nodeStr)  #Tokyo-6
+    p2cEdge=initEdge(edgeStr,nodeStr)  #nmod:of
     c2pEdge=initEdge(edgeStr,pNodeStr) #child 到 parent 的边
     # 获取前缀，如果是类似nmod:in这样的，就增加应该in节点在start和end之间
     prefix=re.findall(r'(.*)\(',deStr)[0]
     if prefix.startswith('nmod:'):
       # 因为初始化node的时候没有index，先随便加一个
       insertNodeStr=prefix[5:]+'-None'
-      insertNode=initNode(insertNodeStr)
+      insertNode=initNode(insertNodeStr)  #of-None
       curNode['children'].append(insertNode)
       # 加上的边暂时用nmod和obj来表示
-      i_c2pEdge = initEdge('nmod', insertNode)
-      insertNode['c2pEdges'].append(i_c2pEdge)
-      i_p2cEdge = initEdge('obj', nodeStr)
-      insertNode['p2cEdges'].append(i_p2cEdge)
+      c2pEdge = initEdge('nmod', insertNodeStr)
+      p2cEdge = initEdge('obj', nodeStr)
+      insertNode['c2pEdges'].append(c2pEdge)
+      curNode['p2cEdges'].append(c2pEdge)
+      print(nodeStr+',,,,,,,,,,,,,'+edgeStr)
+      print(curNode['nodeStr'])
       insertNode['parent'].append(curNode)
       curNode=insertNode
 
@@ -144,10 +148,12 @@ def getDependencyTree(deLst):
     curNode['children'].append(newNode)
     curNode['p2cEdges'].append(p2cEdge)
     newNode['parent'].append(curNode)
-    newNode['c2pEdges'].append(c2pEdge)
+    newNode['c2pEdges'].append(c2pEdge) #p2cEdge
     curNode=newNode
 
     speLst=getSpecifyDependencies(nodeStr,deLst)
+    print('speLst---')
+    print(speLst)
     if len(speLst)==0 and len(stack)>0:
       # speLst不为空，说明往stack里又增加了一个分叉口，树的高度增加1
       # 这里我们要记住分叉时的父节点，因为等这条支路走到头要返到最近的
@@ -275,7 +281,7 @@ def findObj(root):
     cur=stack.pop()
     print('findObj --stack pop v:'+cur['val'])
     for edge in cur['p2cEdges']:
-      print('findObj --stack pop v edge p2cEdges:'+cur['val'])
+      print('findObj --stack pop v edge p2cEdges:'+edge['val'])
       #边上的关系属于特征关系
       if edge['val'] in objFlagArr:
         objNode=findNode(cur,edge['edge2Str'])
@@ -302,7 +308,48 @@ def findQuestionWord(node):
     queue=cur['children']+queue #加再前面，宽度优先遍历
   return None
 
+def readData(func):
+  """装饰器，只读一遍文件"""
+  # 根据谓词短语查询到patternid
+  fRelT=open('../offline/txt/dist/my/relT.txt','r',encoding='utf-8')
+  relT=json.load(fRelT)
+  # 根据patternid查询谓词路径path
+  fPaths=open('../offline/txt/dist/my/paths_tf-idf.txt','r',encoding='utf-8')
+  paths=json.load(fPaths)
+  def wrap(*args,**kwargs):
+    return func(relT,paths,*args,**kwargs)
+  return wrap
 
+#另一个文件里的，循环引用了，拿过来
+@readData
+def getRelPath(relT,paths,rel):
+  # 字典里没有is are，先加上，谓词路径设为空，出现的话直接搜索主语，直接返回be
+  if rel in ['is','are']:
+    return [['be',1]]
+  # # 根据谓词短语查询到patternid
+  # fRelT=open('../offline/txt/dist/my/relT.txt','r',encoding='utf-8')
+  # relT=json.load(fRelT)
+  # # 根据patternid查询谓词路径path
+  # fPaths=open('../offline/txt/dist/my/paths_tf-idf.txt','r',encoding='utf-8')
+  # paths=json.load(fPaths)
+
+  # print(rel)
+
+  # print(relT[rel])
+  # 多个数组合并
+  pathArr=[]
+  for pid in relT[rel]:
+    if pid in paths:
+      pathArr+=paths[pid]
+
+  if len(pathArr)>5:
+    # 排序并取top-3
+    pathArr=sorted(pathArr,key=(lambda x:x[1]), reverse=True)[:5]
+  else:
+    pathArr=sorted(pathArr,key=(lambda x:x[1]), reverse=True)
+
+  print(pathArr)
+  return pathArr
 
 
 
@@ -341,40 +388,56 @@ def getTriple(sents):
 
     print('not find rel phrase!')
     return None
-  # 把包含关系词的子树标记出来
-  relRoot=tu[1]
-  markSubTreeY(relRoot, tu[2])
-  #寻找主语
-  subStr=findSub(relRoot)
-  # 寻找宾语
-  objStr = findObj(relRoot)
 
-  if subStr==None:
-    # 规则3：如果t根节点的父节点和它的子节点有类主语关系，添加子节点到arg1中。
-    relRoot['parent'][0]['belong2Y']=True #因为前面代码的原因，不是关系子树就直接返回了，这里算它是吧
-    subStr = findSub(relRoot['parent'][0])
-    relRoot['parent'][0]['belong2Y'] = False
-    if subStr == None:
-      subStr=findQuestionWord(relRoot)
-      # 找不到疑问词就返回吧
-      if subStr==None:
-        print('sub is none')
-      # return None
-  if objStr==None:
-    objStr=findQuestionWord(relRoot)
+  def findTriple(tu):
+    # 把包含关系词的子树标记出来
+    relRoot=tu[1]
+    markSubTreeY(relRoot, tu[2])
+    #寻找主语
+    subStr=findSub(relRoot)
+    # 寻找宾语
+    objStr = findObj(relRoot)
+    # print('objstr:'+objStr)
+    if subStr==None:
+      # 规则3：如果t根节点的父节点和它的子节点有类主语关系，添加子节点到arg1中。
+      relRoot['parent'][0]['belong2Y']=True #因为前面代码的原因，不是关系子树就直接返回了，这里算它是吧
+      subStr = findSub(relRoot['parent'][0])
+      relRoot['parent'][0]['belong2Y'] = False
+      if subStr == None:
+        subStr=findQuestionWord(root)
+        # 找不到疑问词就返回吧
+        if subStr==None:
+          print('sub is none')
+        # return None
     if objStr==None:
-      # 从整棵树的根找一次
-      objStr = findQuestionWord(root)
-      if objStr == None:
-        print('obj is none')
-      # return None
-  # 两个都为空就没得玩了，直接返回
-  if subStr == None or objStr == None:
-    print('sub or obj are none')
-    return None
-  print((subStr,tu[0],objStr))
-  return (subStr,tu[0],objStr)
+      objStr=findQuestionWord(relRoot)
+      if objStr==None:
+        # 从整棵树的根找一次
+        objStr = findQuestionWord(root)
+        if objStr == None:
+          print('obj is none')
+        # return None
+    # 两个都为空就没得玩了，直接返回
+    if subStr == None and objStr == None:
+      print('sub or obj are none')
+      return None
+    print((subStr,tu[0],objStr))
+    return (subStr,tu[0],objStr)
 
+  #尝试tu = relArr[0]
+  for tu in relArr:
+    print('!!')
+    print(tu[1]['val'])
+    t=findTriple(tu)
+    #(who,is,who),重新尝试下一个rel
+    if t==None or t[0]==t[2] or len(getRelPath(t[1]))==0:
+      continue
+      # 获取谓词路径,本来下一环节才获取的，但是有时候
+      # 存在获取不到的时候，这个时候可以换一个试试，提高点
+      # 召回率，将就下啦，毕业要紧
+      # rel=tu[1]
+    else:
+      return t
 # sents="What is Jordan's career?"
 # # sents="What is Jordan?"
 # # sents="Where is Jordan?"
@@ -382,5 +445,7 @@ def getTriple(sents):
 # sents="where does Aaron Kemps come from"
 # # sents='Who was married to an actor that play in Philadelphia ?'
 # sents="who was married to Jordan?"
+# sents="what is the population of Tokyo?"
+# sents=" What is the birth place of Abraham Lincoln??"
 # t=getTriple(sents)
 # print(t)

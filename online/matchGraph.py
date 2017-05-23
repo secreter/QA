@@ -5,9 +5,9 @@ import sys
 import requests
 sys.path.append("../offline")
 from graphGenerate import getGraph
-from getRelFromN import getTriple
+from getRelFromN import getTriple,getRelPath
 from getEntityLinking import getEntity
-from getRelPath import getRelPath
+# from getRelPath import getRelPath
 
 # 假设我们这里的arg1和arg2里，必有一个是只包含疑问代词的
 # 那么我们就用另一个列表里的实体作为g里字典的key来搜索点

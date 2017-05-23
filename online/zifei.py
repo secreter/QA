@@ -32,6 +32,7 @@ def signin():
     question=request.form['question']
     # 靠，py的可选参数一定要用等号
     answerLst=askZiFei(question,g=g)
+    elapsed = (time.clock() - start)
     if not answerLst:
       return '''
               
@@ -40,9 +41,10 @@ def signin():
               <p><button type="submit">ask</button></p>
               </form>
               <br>
+              花费时间：'''+str(elapsed)+'''s
               <h3>数据集中没有答案，子非也没办法哦~换个问题问问吧</h3>
               '''
-    elapsed = (time.clock() - start)
+    
     return '''
               <form center action="/zifei" method="post">
               <p><input style="width:400px;height:60px" name="question" value="'''+question +'''"></p>
@@ -51,7 +53,7 @@ def signin():
               <br>
               花费时间：'''+str(elapsed)+'''s
               <br>
-              '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' for item in answerLst if len(item[0].split('/'))>1])[1:-1].replace("'",'')
+              '''+str(['<h3><p>答案：'+item[0].split('/')[1]+'      得分：'+str(item[1])+'</p><p>维基主页：https://en.wikipedia.org/wiki/'+item[0].split('/')[1]+'</p></h3>' if len(item[0].split('/'))>1 else '答案：'+item[0] for item in answerLst])[1:-1].replace("'",'')
 
 @app.route('/get_zifei', methods=['GET'])
 def get_zifei():
