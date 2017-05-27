@@ -125,6 +125,7 @@ def askZiFei(sents,g=None):
 
   print(ends)
   sampleEnds=[(end[0].val,end[1]) for end in ends]
+  sampleEnds=sorted(sampleEnds,key=lambda a:a[1],reverse=True)
   print(sampleEnds)
   return sampleEnds
 

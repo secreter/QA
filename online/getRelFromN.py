@@ -418,7 +418,7 @@ def getTriple(sents):
           print('obj is none')
         # return None
     # 两个都为空就没得玩了，直接返回
-    if subStr == None and objStr == None:
+    if subStr == None or objStr == None:
       print('sub or obj are none')
       return None
     print((subStr,tu[0],objStr))
@@ -431,6 +431,7 @@ def getTriple(sents):
     t=findTriple(tu)
     #(who,is,who),重新尝试下一个rel
     if t==None or t[0]==t[2] or len(getRelPath(t[1]))==0:
+      # print('tu:'+t[0]+'__'+t[2]+'--'+len(relArr))
       continue
       # 获取谓词路径,本来下一环节才获取的，但是有时候
       # 存在获取不到的时候，这个时候可以换一个试试，提高点

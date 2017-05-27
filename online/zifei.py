@@ -77,13 +77,18 @@ def get_zifei():
         'msg':'这个问题数据集没有答案，换个问题试试吧~'
         })
     item=answerLst[0]
+    # 因为之前有的没有加resource/
+    if len(item[0].split('/'))>1:
+      answer=item[0].split('/')[1]
+    else:
+      answer=item[0]
     return json.dumps({
         'error':0,
         'time':str(elapsed)+'s',
         'msg':'success',
-        'answer':item[0].split('/')[1],
+        'answer':answer,
         'score':item[1],
-        'wiki':'https://en.wikipedia.org/wiki/'+item[0].split('/')[1]
+        'wiki':'https://en.wikipedia.org/wiki/'+answer
         })
 
 
